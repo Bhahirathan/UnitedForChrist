@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "511284764985",
+    "firebase_url": "https://united-for-christ-5ebbc.firebaseio.com",
+    "project_id": "united-for-christ-5ebbc",
+    "storage_bucket": "united-for-christ-5ebbc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:511284764985:android:5e4c9a692130b398",
+        "android_client_info": {
+          "package_name": "com.lordalmighty.unitedforchrist"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "511284764985-fn6a9tlle4k3drga4sdg1mpf1vhcclkj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.lordalmighty.unitedforchrist",
+            "certificate_hash": "01014840ad9b81a98bc3261d5631519d95ee1360"
+          }
+        },
+        {
+          "client_id": "511284764985-304cffu8gdikpio1usu28u52sqla3j11.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBIL-XPARgLF6sO-hWkBL48vOsDfMiVtm4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "511284764985-304cffu8gdikpio1usu28u52sqla3j11.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
