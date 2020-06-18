@@ -30,7 +30,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
     String email,password;
-    boolean check;
 
 
 

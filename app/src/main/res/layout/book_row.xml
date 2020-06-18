@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content">
+
+  <TextView
+      android:id="@+id/book_name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerVertical="true"
+      android:layout_marginLeft="10dp"
+      android:clickable="false"
+      android:focusable="false"
+      android:padding="5sp"
+      android:text="testing"
+      android:textColor="#000000"
+      android:textSize="24sp" />
+
+  <ImageView
+      android:id="@+id/book_chapter_selection"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+      android:layout_centerVertical="true"
+      android:layout_marginRight="25dp"
+      android:clickable="false"
+      android:focusable="false"
+      android:paddingTop="5sp"
+      android:paddingRight="5sp"
+      android:paddingBottom="5sp"
+      android:src="@drawable/listing3" />
+    
+</RelativeLayout>

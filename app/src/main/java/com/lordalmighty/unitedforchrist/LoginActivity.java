@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG="LoginActivity";
-    private Button loginbtn,Demo;
+    private Button loginbtn;
     private EditText editEmail,editPassword;
     private TextView textViewlogin;
     private ProgressDialog ProgressDialog;
@@ -30,8 +30,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        Demo=(Button)findViewById(R.id.demo);
-        Demo.setOnClickListener(this);
         loginbtn=(Button)findViewById(R.id.loginButton);
         firebaseAuth=FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser()!=null){

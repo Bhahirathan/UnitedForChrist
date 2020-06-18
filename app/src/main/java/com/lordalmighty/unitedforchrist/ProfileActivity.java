@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button logout,home,Profilebtn;
+    private Button logout,home,Profilebtn,demo;
     private TextView UserTextView,welcome;
     private FirebaseAuth firebaseAuth;
     @Override
@@ -21,6 +21,8 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         setContentView(R.layout.activity_profile);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         home=(Button)findViewById(R.id.Homebtn);
+
+        demo=(Button)findViewById(R.id.Demo);
         firebaseAuth=FirebaseAuth.getInstance();
         if(firebaseAuth.getCurrentUser()==null){
             finish();
@@ -32,6 +34,7 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
         UserTextView=(TextView)findViewById(R.id.textViewlogin);
         welcome=(TextView)findViewById(R.id.textwelcome);
         welcome.setText("As "+user.getEmail());
+        demo.setOnClickListener(this);
         logout.setOnClickListener(this);
         Profilebtn.setOnClickListener(this);
         home.setOnClickListener(this);
@@ -43,6 +46,10 @@ public class ProfileActivity extends AppCompatActivity implements View.OnClickLi
             firebaseAuth.signOut();
             finish();
             startActivity(new Intent(this,LoginActivity.class));
+        }
+        if(v==demo){
+            finish();
+            startActivity(new Intent(this,ShowProfileActivity.class));
         }
         if(v==home){
             finish();

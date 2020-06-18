@@ -41,7 +41,7 @@
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
 
-            android:hint=" Email Address"
+            android:hint="Email Address"
             android:inputType="textEmailAddress" />
 
         <EditText
@@ -52,7 +52,7 @@
             android:layout_marginBottom="25dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:hint=" Password"
+            android:hint="Password"
             android:inputType="textPassword" />
 
         <Button
@@ -75,11 +75,6 @@
             android:textColor="#121212"
             android:text="Not have an Account? Register Here!"
             android:textAlignment="center" />
-        <Button
-            android:id="@+id/demo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="demo" />
     </LinearLayout>
 
 

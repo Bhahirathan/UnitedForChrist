@@ -17,7 +17,6 @@
         android:layout_centerHorizontal="false"
         android:layout_centerVertical="false"
         android:layout_marginTop="40dp"
-
         android:orientation="vertical">
 
         <TextView
@@ -40,7 +39,7 @@
             android:layout_marginBottom="25dp"
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
-            android:hint=" Enter Your Email"
+            android:hint="Enter Your Email"
             android:inputType="textEmailAddress" />
 
         <EditText
@@ -48,11 +47,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-
             android:layout_marginLeft="25dp"
             android:layout_marginRight="25dp"
             android:layout_marginBottom="25dp"
-            android:hint=" Enter Your Password"
+            android:hint="Enter Your Password"
             android:inputType="textPassword" />
 
         <Button

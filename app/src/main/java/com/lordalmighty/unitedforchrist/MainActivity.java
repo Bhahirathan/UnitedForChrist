@@ -3,7 +3,9 @@ package com.lordalmighty.unitedforchrist;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,46 +15,160 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
-
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.lordalmighty.unitedforchrist.activities.Bible;
 import java.text.SimpleDateFormat;
-
 import java.util.Locale;
 
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener  {
-TextView tv;
+        implements NavigationView.OnNavigationItemSelectedListener {
+    private TextView tv,coun,coun_btn;
+    private int flag;
+    private String no;
+    String keys;
+    private long num,count;
+    private RecyclerView mPeopleRV;
+    private DatabaseReference mDatabase;
+    private FirebaseRecyclerAdapter<Requests, MainActivity.NewsViewHolder> mPeopleRVAdapter;
+    private LinearLayoutManager mLayoutManager;
+    private static FirebaseDatabase Database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        tv=(TextView) findViewById(R.id.tv);
+        tv = findViewById(R.id.tv);
+
+        coun = findViewById(R.id.count);
         update();
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                     no=String.valueOf(num);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                Intent intent=new Intent(MainActivity.this,PostActivity.class);
+                intent.putExtra("id", no);
+                startActivity(intent);
+            }
+        });
+
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mPeopleRV = findViewById(R.id.myRecyclerView);
+        final DatabaseReference personsRef = FirebaseDatabase.getInstance().getReference().child("Requests");
+        final Query personsQuery = personsRef.orderByKey();
+        mPeopleRV.hasFixedSize();
+        mLayoutManager = new LinearLayoutManager(MainActivity.this);
+        mLayoutManager.setReverseLayout(true);
+        mLayoutManager.setStackFromEnd(true);
+
+        mPeopleRV.setLayoutManager(mLayoutManager);
+
+        final FirebaseRecyclerOptions personsOptions = new FirebaseRecyclerOptions.Builder<Requests>().setQuery(personsQuery, Requests.class).build();
+
+        mPeopleRVAdapter = new FirebaseRecyclerAdapter<Requests, NewsViewHolder>(personsOptions)
+        {
+            @Override
+            protected void onBindViewHolder(final MainActivity.NewsViewHolder holder, final int position, final Requests model)
+            {
+                holder.setTitle(model.getName());
+                holder.setDesc(model.getDesc());
+                holder.coun_.setText(String.valueOf(model.getPray_count()));
+                holder.coun_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String s=getRef(position).getKey();
+                        holder.coun_.setText(String.valueOf(model.getPray_count()));
+                    }
+                });
+
+                holder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+            }
+
+            @Override
+            public MainActivity.NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+            {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.news_row, parent, false);
+                return new MainActivity.NewsViewHolder(view);
+            }
+        };
+        mPeopleRV.setAdapter(mPeopleRVAdapter);
+        personsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                num = dataSnapshot.getChildrenCount();
+                
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mPeopleRVAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mPeopleRVAdapter.stopListening();
+    }
+
+    public static class NewsViewHolder extends RecyclerView.ViewHolder {
+        View mView;
+        TextView coun_btn,coun_;
+
+        public NewsViewHolder(View itemView) {
+            super(itemView);
+            mView = itemView;
+            coun_ = mView.findViewById(R.id.count);
+            coun_btn = mView.findViewById(R.id.prayed);
+        }
+
+        public void setTitle(String title) {
+            TextView post_title = mView.findViewById(R.id.name);
+            post_title.setText(title);
+        }
+
+        public void setDesc(String desc) {
+            TextView post_desc = mView.findViewById(R.id.desc);
+            post_desc.setText(desc);
+        }
+    }
+
+
+
 
     @Override
     public void onBackPressed() {
@@ -63,6 +179,7 @@ TextView tv;
             super.onBackPressed();
         }
     }
+
 public void update(){
     String sun="Sunday";
     String mon="Monday";
@@ -94,6 +211,7 @@ public void update(){
         tv.setText(fr);
     if(sat.equals(weekday_name))
         tv.setText(sa);
+
     }
 
     @Override
@@ -126,12 +244,13 @@ public void update(){
 
       if (id == R.id.nav_home) {
             startActivity(new Intent(this,MainActivity.class));
-        } else if (id == R.id.nav_prayer) {
+        } else if (id==R.id.Bible) {
+          startActivity(new Intent(this,Bible.class));
+      }else if (id == R.id.nav_prayer) {
 
         } else if (id == R.id.login_or_sign) {
           Intent signup=new Intent(MainActivity.this,LoginActivity.class);
           startActivity(signup);
-
         } else if (id == R.id.nav_share) {
           Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
           sharingIntent.setType("text/plain");
